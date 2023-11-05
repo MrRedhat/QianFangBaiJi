@@ -60,7 +60,7 @@ public class testPage extends AppCompatActivity {
         q_number = Global.fangge_info_array.get(now)[1];
         max = Global.number;
 
-        setContentView(R.layout.testpage);
+        setContentView(R.layout.quiz_page);
         init();
         // 返回上一页
         btn_back.setOnClickListener(v -> {

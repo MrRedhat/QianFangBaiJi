@@ -1,4 +1,4 @@
-package com.example.qianfangbaiji.TestPage;
+package com.example.qianfangbaiji.QuizPage;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -32,7 +32,7 @@ import java.util.Collections;
 import java.util.List;
 
 //根据数据库创建
-public class testReport extends AppCompatActivity {
+public class QuizReport extends AppCompatActivity {
     Button btn_back;
     TextView fangge_number;
     int max;
@@ -42,7 +42,7 @@ public class testReport extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.memoryreport);
+        setContentView(R.layout.quiz_report);
 
         SharedPreferences prefs = getSharedPreferences("test_prefs", MODE_PRIVATE);
         max = prefs.getInt("number", -1);
@@ -58,7 +58,7 @@ public class testReport extends AppCompatActivity {
 
         // for get back
         btn_back.setOnClickListener(v -> {
-            Intent intent = new Intent(testReport.this, selectmode.class);
+            Intent intent = new Intent(QuizReport.this, selectmode.class);
             startActivity(intent);
         });
 

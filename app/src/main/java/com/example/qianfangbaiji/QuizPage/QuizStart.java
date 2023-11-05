@@ -1,4 +1,4 @@
-package com.example.qianfangbaiji.TestPage;
+package com.example.qianfangbaiji.QuizPage;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +17,7 @@ import com.example.qianfangbaiji.R;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class testStart extends AppCompatActivity {
+public class QuizStart extends AppCompatActivity {
     Button buttonBack, buttonStart;
     EditText numInput;
     boolean flag = false;
@@ -25,7 +25,7 @@ public class testStart extends AppCompatActivity {
     int max;
     SQLiteDatabase database;
     private void initVariables(){
-        setContentView(R.layout.testsetting);
+        setContentView(R.layout.quiz_start);
 
         buttonBack =  findViewById(R.id.button_back);
         buttonStart = findViewById(R.id.start_button);
@@ -42,7 +42,7 @@ public class testStart extends AppCompatActivity {
             String text = numInput.getText().toString();
             max = text.trim().equals("") ? 0 : Integer.parseInt(text);
             if (max <= 0  || max >= 100) {
-                Toast.makeText(testStart.this, "请输入1-100范围内数字", Toast.LENGTH_SHORT).show();
+                Toast.makeText(QuizStart.this, "请输入1-100范围内数字", Toast.LENGTH_SHORT).show();
                 flag = false;
             } else {
                 // 开始对全部条文进行扫描，随机获取id
@@ -66,7 +66,7 @@ public class testStart extends AppCompatActivity {
                 }
                 editor.apply();
                 // 从SpendingActivity页面跳转至ExpenseProcessActivity页面
-                Intent intent=new Intent(testStart.this, testPage.class);
+                Intent intent=new Intent(QuizStart.this, QuizPage.class);
                 intent.putExtra("now", 0);
                 startActivity(intent);
             }

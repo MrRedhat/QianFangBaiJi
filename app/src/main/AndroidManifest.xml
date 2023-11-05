@@ -33,9 +33,9 @@
         <activity android:name=".CardPage.MemoryCardList" />
         <activity android:name=".CardPage.MemoryCardLoad" />
         <activity android:name=".CardPage.MemoryCardCreate" />
-        <activity android:name=".TestPage.testPage" />
-        <activity android:name=".TestPage.testStart" />
-        <activity android:name=".TestPage.testReport" />
+        <activity android:name=".QuizPage.QuizPage" />
+        <activity android:name=".QuizPage.QuizStart" />
+        <activity android:name=".QuizPage.QuizReport" />
         <activity android:name=".MemoryPage.memorySelect" />
         <activity android:name=".LoginPage.Login" />
         <activity android:name=".LoginPage.Register" />

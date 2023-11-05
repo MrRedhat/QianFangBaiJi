@@ -40,7 +40,7 @@ public class memoryReport extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.memoryreport);
+        setContentView(R.layout.quiz_report);
 
         max = Global.number;
         fangge_info = Global.fangge_info_array;

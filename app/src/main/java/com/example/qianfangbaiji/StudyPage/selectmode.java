@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.qianfangbaiji.MemoryPage.memoryStart;
 import com.example.qianfangbaiji.R;
-import com.example.qianfangbaiji.TestPage.testStart;
+import com.example.qianfangbaiji.QuizPage.QuizStart;
 
 @SuppressLint("Registered")
 public class selectmode extends AppCompatActivity {
@@ -37,7 +37,7 @@ public class selectmode extends AppCompatActivity {
         });
 
         randomTestButton.setOnClickListener(v -> {
-            Intent intent=new Intent(selectmode.this, testStart.class);
+            Intent intent=new Intent(selectmode.this, QuizStart.class);
             startActivity(intent);
         });
 

@@ -1,4 +1,4 @@
-package com.example.qianfangbaiji.TestPage;
+package com.example.qianfangbaiji.QuizPage;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -21,7 +21,7 @@ import com.example.qianfangbaiji.OtherClass.Global;
 import com.example.qianfangbaiji.R;
 
 //根据数据库创建
-public class testPage extends AppCompatActivity {
+public class QuizPage extends AppCompatActivity {
     Button backButton;
     TextView fangge_id, fangge_name, fangge_infor, fangge_from, fangge_content, now_number, pre_number;
     Button []answer = new Button[3];
@@ -53,7 +53,7 @@ public class testPage extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("test_prefs", MODE_PRIVATE);
         int fangge_number = prefs.getInt("array"+now, -1);
         final int max = prefs.getInt("number", -1);
-        setContentView(R.layout.testpage);
+        setContentView(R.layout.quiz_page);
         init();
 
         backButton.setOnClickListener(v -> finish());
@@ -79,10 +79,10 @@ public class testPage extends AppCompatActivity {
                     v.setBackgroundColor(Color.rgb(199, 230, 203));
                     Intent intent;
                     if (now >= max - 1){
-                        intent = new Intent(testPage.this, testReport.class);
+                        intent = new Intent(QuizPage.this, QuizReport.class);
                     }
                     else{
-                        intent = new Intent(testPage.this, testPage.class);
+                        intent = new Intent(QuizPage.this, QuizPage.class);
                     }
                     intent.putExtra("now", now+1);
                     startActivity(intent);
