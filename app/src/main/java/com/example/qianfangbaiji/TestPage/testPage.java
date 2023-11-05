@@ -22,18 +22,14 @@ import com.example.qianfangbaiji.R;
 
 //根据数据库创建
 public class testPage extends AppCompatActivity {
-    Button btn_back;
-
+    Button backButton;
     TextView fangge_id, fangge_name, fangge_infor, fangge_from, fangge_content, now_number, pre_number;
-
     Button []answer = new Button[3];
-
     int now;
-    SQLiteDatabase db1;
+    SQLiteDatabase database;
 
     private void init(){
-        btn_back = findViewById(R.id.button_back);
-
+        backButton = findViewById(R.id.button_back);
 
         answer[0] = findViewById(R.id.answer1);
         answer[1]  = findViewById(R.id.answer2);
@@ -60,11 +56,7 @@ public class testPage extends AppCompatActivity {
         setContentView(R.layout.testpage);
         init();
 
-        // 返回上一页
-        btn_back.setOnClickListener(v -> {
-        Intent intent = new Intent(testPage.this,testStart.class);
-        startActivity(intent);
-        });
+        backButton.setOnClickListener(v -> finish());
 
         //  生成答案
         int question = (int) (Math.random() * Global.question_number);
@@ -82,8 +74,7 @@ public class testPage extends AppCompatActivity {
                     v.setX(originalX);
                     v.setY(originalY);
                 });
-            }
-            else{
+            } else{
                 answer[i].setOnClickListener(v -> {
                     v.setBackgroundColor(Color.rgb(199, 230, 203));
                     Intent intent;
@@ -98,17 +89,17 @@ public class testPage extends AppCompatActivity {
                 });
             }
         }
-        db1 = openOrCreateDatabase("database", Context.MODE_PRIVATE, null);
-        Cursor c = db1.rawQuery(String.format("SELECT * FROM %s WHERE id = %d", "fangge", fangge_number), null);
+        database = openOrCreateDatabase("database", Context.MODE_PRIVATE, null);
+        Cursor c = database.rawQuery(String.format("SELECT * FROM %s WHERE id = %d", "fangge", fangge_number), null);
         c.moveToFirst();
         Fangge fangge_item = new Fangge(c);
 
-        //        生成干扰项 4类问题
-        //        fangge_name
+        // 生成干扰项 4类问题
+        // fangge_name
         if (question == 0){
             String hint = "____?____";
             fangge_name.setText(hint);
-            c = db1.rawQuery(String.format("SELECT * FROM %s WHERE infor != '%s' ORDER BY RANDOM()", "fangge", fangge_item.info), null);
+            c = database.rawQuery(String.format("SELECT * FROM %s WHERE infor != '%s' ORDER BY RANDOM()", "fangge", fangge_item.info), null);
             c.moveToFirst();
             for(int i=0;i<Global.answer_number;i++){
                 if(i == right_answer){
@@ -127,7 +118,7 @@ public class testPage extends AppCompatActivity {
         else if (question == 1){
             String hint = "______?______";
             fangge_from.setText(hint);
-            c = db1.rawQuery(String.format("SELECT * FROM %s WHERE book != '%s' ORDER BY RANDOM()", "fangge", fangge_item.book), null);
+            c = database.rawQuery(String.format("SELECT * FROM %s WHERE book != '%s' ORDER BY RANDOM()", "fangge", fangge_item.book), null);
             c.moveToFirst();
             for(int i=0;i<Global.answer_number;i++){
                 if(i == right_answer){
@@ -156,7 +147,7 @@ public class testPage extends AppCompatActivity {
                 answer_word = fangge_item.content.substring(cut_line*17, (cut_line+1)*17);
             }
             String replace = fangge_item.content.replace(answer_word, hint);
-            c = db1.rawQuery(String.format("SELECT * FROM %s WHERE id != %d ORDER BY RANDOM()", "fangge", fangge_number), null);
+            c = database.rawQuery(String.format("SELECT * FROM %s WHERE id != %d ORDER BY RANDOM()", "fangge", fangge_number), null);
             c.moveToFirst();
             for(int i=0;i<Global.answer_number;i++){
                 if(i == right_answer){
@@ -176,7 +167,7 @@ public class testPage extends AppCompatActivity {
         }
         else{
             String hint = "____?____";
-            c = db1.rawQuery(String.format("SELECT * FROM %s WHERE table_name != '%s' ORDER BY RANDOM()", "fangge", fangge_item.table_name), null);
+            c = database.rawQuery(String.format("SELECT * FROM %s WHERE table_name != '%s' ORDER BY RANDOM()", "fangge", fangge_item.table_name), null);
             c.moveToFirst();
             for(int i=0;i<Global.answer_number;i++){
                 if(i == right_answer){

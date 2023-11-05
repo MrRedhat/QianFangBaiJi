@@ -2,9 +2,7 @@ package com.example.qianfangbaiji.MemoryPage;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -36,7 +34,7 @@ public class memoryStart extends AppCompatActivity {
         Global.initMemory();
 
         buttonBack =  findViewById(R.id.button_back);
-        buttonStart = findViewById(R.id.btn_start);
+        buttonStart = findViewById(R.id.start_button);
         buttonLoad = findViewById(R.id.btn_load);
         buttonSelect = findViewById(R.id.btn_select);
 

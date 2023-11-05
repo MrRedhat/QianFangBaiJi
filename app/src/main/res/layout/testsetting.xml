@@ -23,7 +23,7 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:layout_centerInParent="true"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/testSetting"
             android:textStyle="bold"
@@ -54,7 +54,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/selectMemoryNumber"
+            android:text="@string/inputMemoryNumber"
 
             android:textSize="15sp"
             />
@@ -66,13 +66,14 @@
             android:layout_marginBottom="20dp"
             android:gravity="center"
             android:layout_gravity="center"
-            android:hint="10"
             android:layout_marginTop="10dp"
             android:textColor="@color/grey"
             android:id="@+id/search_box"
             android:textSize="15sp"
             android:inputType="number"
             android:maxLength="2"
+            android:hint="@string/default_remember_num"
+            android:autofillHints="@string/default_remember_num"
             />
     </LinearLayout>
 
@@ -87,7 +88,7 @@
         android:textSize="20sp"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:id="@+id/btn_start"
+        android:id="@+id/start_button"
         android:layout_above="@+id/bottomLine"
         />
 

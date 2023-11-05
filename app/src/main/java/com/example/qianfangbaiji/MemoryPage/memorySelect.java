@@ -32,7 +32,7 @@ public class memorySelect extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.memoryselect);
 
-        buttonStart = findViewById(R.id.btn_start);
+        buttonStart = findViewById(R.id.start_button);
         buttonReStart = findViewById(R.id.btn_restart);
 
         // 用户需要新学的，固定数量

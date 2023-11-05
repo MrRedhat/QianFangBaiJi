@@ -34,7 +34,7 @@
     <string name="memoryHint">------方歌背诵数------</string>
     <string name="memorySetting">方歌背诵</string>
     <string name="memoryLoad">查看已背诵方歌</string>
-    <string name="selectMemoryNumber">------选择记忆数目------</string>
+    <string name="inputMemoryNumber">------输入记忆数目------</string>
     <string name="memoryStart">开始背诵</string>
     <string name="memorySubmit">提交</string>
     <string name="memoryLoads">已学方歌</string>
@@ -78,5 +78,6 @@
     <string name="test_fill_fagge_resource">汉·伤寒论</string>
     <string name="test_fill_fangge_content">桑菊饮中桔杏翘，芦根甘草薄荷饶；\n清疏肺卫轻宣剂，风温咳嗽服之消。</string>
     <string name="test_fill_fangge_info">功效：辛温解表</string>
+    <string name="default_remember_num">10</string>
 
 </resources>
