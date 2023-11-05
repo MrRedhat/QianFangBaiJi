@@ -20,9 +20,6 @@ import java.util.Locale;
 public class QuizStart extends AppCompatActivity {
     Button buttonBack, buttonStart;
     EditText numInput;
-    boolean flag = false;
-    ArrayList<Integer> idList;
-    int max;
     SQLiteDatabase database;
     private void initVariables(){
         setContentView(R.layout.quiz_start);
@@ -39,25 +36,21 @@ public class QuizStart extends AppCompatActivity {
 
         // 注意，如果用户不输入数字，则默认为？
         buttonStart.setOnClickListener(v -> {
-            String text = numInput.getText().toString();
-            max = text.trim().equals("") ? 0 : Integer.parseInt(text);
-            if (max <= 0  || max >= 100) {
+            String quizNumInput = numInput.getText().toString();
+            int quizNum = quizNumInput.trim().equals("") ? 0 : Integer.parseInt(quizNumInput);
+            if (quizNum <= 0  || quizNum >= 100) {
                 Toast.makeText(QuizStart.this, "请输入1-100范围内数字", Toast.LENGTH_SHORT).show();
-                flag = false;
             } else {
                 // 开始对全部条文进行扫描，随机获取id
-                flag = true;
-                idList = new ArrayList<>();
+                ArrayList<Integer> idList = new ArrayList<>();
                 database = openOrCreateDatabase("database", Context.MODE_PRIVATE, null);
-                Cursor c = database.rawQuery(String.format(Locale.US, "SELECT id FROM fangge ORDER BY RANDOM() LIMIT %d", max), null);
+                Cursor c = database.rawQuery(String.format(Locale.US, "SELECT id FROM fangge ORDER BY RANDOM() LIMIT %d", quizNum), null);
                 c.moveToFirst();
                 while (!c.isAfterLast()) {
                     idList.add(c.getInt(c.getColumnIndex("id")));
                     c.moveToNext();
                 }
                 c.close();
-            }
-            if(flag){
                 SharedPreferences.Editor editor = getSharedPreferences("test_prefs", MODE_PRIVATE).edit();
                 // 更新键值对
                 editor.putInt("number", idList.size());
@@ -65,8 +58,8 @@ public class QuizStart extends AppCompatActivity {
                     editor.putInt("array"+ i, idList.get(i));
                 }
                 editor.apply();
-                // 从SpendingActivity页面跳转至ExpenseProcessActivity页面
-                Intent intent=new Intent(QuizStart.this, QuizPage.class);
+
+                Intent intent = new Intent(QuizStart.this, QuizPage.class);
                 intent.putExtra("now", 0);
                 startActivity(intent);
             }
