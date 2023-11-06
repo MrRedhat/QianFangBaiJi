@@ -19,29 +19,20 @@ public class Global {
 
     private static SharedPreferences sharedPreferences;
 
-//    全局固定变量
-//    总条数
-    public static int total_number = 205;
-//    当前已经完成
-    public static int already_over_number = 0;
-//    问题个数
-    public static int question_number = 4;
-//    问题答案个数
-    public static int answer_number = 3;
-//    每日固定新背诵个数
-    public static int daily_new_number = 5;
+    // 全局静态变量
+    public static int total_number = 205; // 方歌总条数
+    public static final int QUESTION_NUM = 4; // 问题个数
+    public static final int ANS_NUM = 3; // 问题答案个数
 
-
-//    全局可变变量
+    // 全局可变变量
+    public static int daily_new_number = 5; // 每日固定新背诵个数
+    public static int already_over_number = 0; // 当前已经完成
     public static int stage = 0;
-//    今日所有背诵条文数量
-    public static int number = 0;
-//    当前背诵条文序列号
-    public static int now = 0;
-//    新学条文分界线
-    public static int edge = 0;
-//    条文总信息
-    public static List<int[]> fangge_info_array = new ArrayList<>();
+    public static int number = 0; // 今日所有背诵条文数量
+    public static int now = 0; // 当前背诵条文序列号
+
+    public static int edge = 0; // 新学条文分界线
+    public static List<int[]> fangge_info_array = new ArrayList<>(); //    条文总信息
 
     public static void init(Context context){
         sharedPreferences = context.getSharedPreferences("global_prefs", Context.MODE_PRIVATE);

@@ -70,10 +70,10 @@ public class testPage extends AppCompatActivity {
         });
 
         //  生成答案
-        int question = (int) (Math.random() * Global.question_number);
-        final int right_answer =  (int) (Math.random() * Global.answer_number);
+        int question = (int) (Math.random() * Global.QUESTION_NUM);
+        final int right_answer =  (int) (Math.random() * Global.ANS_NUM);
 
-        for(int i=0; i<Global.answer_number;i++){
+        for(int i = 0; i<Global.ANS_NUM; i++){
             if(i != right_answer){
                 answer[i].setOnClickListener(v -> {
                     if(test_q_add > -1){
@@ -143,7 +143,7 @@ public class testPage extends AppCompatActivity {
             fangge_name.setText(hint);
             cursor = db1.rawQuery(String.format("SELECT * FROM %s WHERE infor != '%s' ORDER BY RANDOM()", "fangge", fangge_item.info), null);
             cursor.moveToFirst();
-            for(int i=0;i<Global.answer_number;i++){
+            for(int i = 0; i<Global.ANS_NUM; i++){
                 if(i == right_answer){
                     answer[i].setText(fangge_item.info);
                 }
@@ -162,7 +162,7 @@ public class testPage extends AppCompatActivity {
             fangge_from.setText(hint);
             cursor = db1.rawQuery(String.format("SELECT * FROM %s WHERE book != '%s' ORDER BY RANDOM()", "fangge", fangge_item.book), null);
             cursor.moveToFirst();
-            for(int i=0;i<Global.answer_number;i++){
+            for(int i = 0; i<Global.ANS_NUM; i++){
                 if(i == right_answer){
                     answer[i].setText(String.format("%s·%s", fangge_item.dynasty, fangge_item.book));
                 }
@@ -191,7 +191,7 @@ public class testPage extends AppCompatActivity {
             String replace = fangge_item.content.replace(answer_word, hint);
             cursor = db1.rawQuery(String.format("SELECT * FROM %s WHERE id != %d ORDER BY RANDOM()", "fangge", fangge_number), null);
             cursor.moveToFirst();
-            for(int i=0;i<Global.answer_number;i++){
+            for(int i = 0; i<Global.ANS_NUM; i++){
                 if(i == right_answer){
                     answer[i].setText(answer_word);
                 }
@@ -211,7 +211,7 @@ public class testPage extends AppCompatActivity {
             String hint = "____?____";
             cursor = db1.rawQuery(String.format("SELECT * FROM %s WHERE table_name != '%s' ORDER BY RANDOM()", "fangge", fangge_item.table_name), null);
             cursor.moveToFirst();
-            for(int i=0;i<Global.answer_number;i++){
+            for(int i = 0; i<Global.ANS_NUM; i++){
                 if(i == right_answer){
                     answer[i].setText(fangge_item.table_name);
                 }

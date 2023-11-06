@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.CycleInterpolator;
 import android.view.animation.TranslateAnimation;
@@ -22,11 +23,22 @@ import com.example.qianfangbaiji.R;
 
 //根据数据库创建
 public class QuizPage extends AppCompatActivity {
+    private static final String TAG = "QuizPage";
     Button backButton;
-    TextView fangge_id, fangge_name, fangge_infor, fangge_from, fangge_content, now_number, pre_number;
+    TextView fangGeID, fangGeName, fangGeInfo, fangGeSource, fangGeContent, now_number, pre_number;
     Button []answer = new Button[3];
-    int now;
     SQLiteDatabase database;
+
+    private static void wrongAnswerAnimation(View v) {
+        float originalX = v.getX();
+        float originalY = v.getY();
+        Animation shake = new TranslateAnimation(0, 10, 0, 0);
+        shake.setDuration(500);
+        shake.setInterpolator(new CycleInterpolator(5));
+        v.startAnimation(shake);
+        v.setX(originalX);
+        v.setY(originalY);
+    }
 
     private void init(){
         backButton = findViewById(R.id.button_back);
@@ -37,11 +49,11 @@ public class QuizPage extends AppCompatActivity {
 
         now_number = findViewById(R.id.now_number);
         pre_number = findViewById(R.id.pre_number);
-        fangge_id = findViewById(R.id.fangge_id);
-        fangge_name = findViewById(R.id.fangge_name);
-        fangge_infor = findViewById(R.id.fangge_infor);
-        fangge_from = findViewById(R.id.fang_ge_source);
-        fangge_content = findViewById(R.id.fang_ge_content);
+        fangGeID = findViewById(R.id.fangge_id);
+        fangGeName = findViewById(R.id.fangge_name);
+        fangGeInfo = findViewById(R.id.fangge_infor);
+        fangGeSource = findViewById(R.id.fang_ge_source);
+        fangGeContent = findViewById(R.id.fang_ge_content);
     }
 
     @SuppressLint("DefaultLocale")
@@ -49,7 +61,7 @@ public class QuizPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        now = getIntent().getIntExtra("now", 0);
+        int now = getIntent().getIntExtra("now", 0);
         SharedPreferences prefs = getSharedPreferences("test_prefs", MODE_PRIVATE);
         int fangge_number = prefs.getInt("array"+now, -1);
         final int max = prefs.getInt("number", -1);
@@ -59,24 +71,15 @@ public class QuizPage extends AppCompatActivity {
         backButton.setOnClickListener(v -> finish());
 
         //  生成答案
-        int question = (int) (Math.random() * Global.question_number);
-        final int right_answer =  (int) (Math.random() * Global.answer_number);
+        int question = (int) (Math.random() * Global.QUESTION_NUM);
+        final int right_answer =  (int) (Math.random() * Global.ANS_NUM); // 随机指定正确答案的位置
 
-        for(int i=0; i<Global.answer_number;i++){
-            if(i != right_answer){
-                answer[i].setOnClickListener(v -> {
-                    float originalX = v.getX();
-                    float originalY = v.getY();
-                    Animation shake = new TranslateAnimation(0, 10, 0, 0);
-                    shake.setDuration(500);
-                    shake.setInterpolator(new CycleInterpolator(5));
-                    v.startAnimation(shake);
-                    v.setX(originalX);
-                    v.setY(originalY);
-                });
+        for(int i = 0; i < Global.ANS_NUM; i++){
+            if(i != right_answer){ // 设定错误答案的动效
+                answer[i].setOnClickListener(QuizPage::wrongAnswerAnimation);
             } else{
                 answer[i].setOnClickListener(v -> {
-                    v.setBackgroundColor(Color.rgb(199, 230, 203));
+                    v.setBackgroundColor(Color.rgb(199, 230, 203)); // 这个处理之后圆角没了，可以优化
                     Intent intent;
                     if (now >= max - 1){
                         intent = new Intent(QuizPage.this, QuizReport.class);
@@ -84,7 +87,7 @@ public class QuizPage extends AppCompatActivity {
                     else{
                         intent = new Intent(QuizPage.this, QuizPage.class);
                     }
-                    intent.putExtra("now", now+1);
+                    intent.putExtra("now", now + 1); // 跳转到新页面并指定当前测试到第几条
                     startActivity(intent);
                 });
             }
@@ -98,10 +101,10 @@ public class QuizPage extends AppCompatActivity {
         // fangge_name
         if (question == 0){
             String hint = "____?____";
-            fangge_name.setText(hint);
+            fangGeName.setText(hint);
             c = database.rawQuery(String.format("SELECT * FROM %s WHERE infor != '%s' ORDER BY RANDOM()", "fangge", fangge_item.info), null);
             c.moveToFirst();
-            for(int i=0;i<Global.answer_number;i++){
+            for(int i = 0; i<Global.ANS_NUM; i++){
                 if(i == right_answer){
                     answer[i].setText(fangge_item.info);
                 }
@@ -110,17 +113,17 @@ public class QuizPage extends AppCompatActivity {
                     c.moveToNext();
                 }
             }
-            fangge_from.setText(String.format("%s·%s", fangge_item.dynasty, fangge_item.book));
-            fangge_content.setText(fangge_item.content);
-            fangge_infor.setText(String.format("治法：%s",fangge_item.table_name));
+            fangGeSource.setText(String.format("%s·%s", fangge_item.dynasty, fangge_item.book));
+            fangGeContent.setText(fangge_item.content);
+            fangGeInfo.setText(String.format("治法：%s",fangge_item.table_name));
         }
         //        fangge_from
         else if (question == 1){
             String hint = "______?______";
-            fangge_from.setText(hint);
+            fangGeSource.setText(hint);
             c = database.rawQuery(String.format("SELECT * FROM %s WHERE book != '%s' ORDER BY RANDOM()", "fangge", fangge_item.book), null);
             c.moveToFirst();
-            for(int i=0;i<Global.answer_number;i++){
+            for(int i = 0; i<Global.ANS_NUM; i++){
                 if(i == right_answer){
                     answer[i].setText(String.format("%s·%s", fangge_item.dynasty, fangge_item.book));
                 }
@@ -130,9 +133,9 @@ public class QuizPage extends AppCompatActivity {
                     c.moveToNext();
                 }
             }
-            fangge_name.setText(fangge_item.info);
-            fangge_content.setText(fangge_item.content);
-            fangge_infor.setText(String.format("治法：%s",fangge_item.table_name));
+            fangGeName.setText(fangge_item.info);
+            fangGeContent.setText(fangge_item.content);
+            fangGeInfo.setText(String.format("治法：%s",fangge_item.table_name));
         }
         //        fangge_content
         else if(question == 2){
@@ -149,7 +152,7 @@ public class QuizPage extends AppCompatActivity {
             String replace = fangge_item.content.replace(answer_word, hint);
             c = database.rawQuery(String.format("SELECT * FROM %s WHERE id != %d ORDER BY RANDOM()", "fangge", fangge_number), null);
             c.moveToFirst();
-            for(int i=0;i<Global.answer_number;i++){
+            for(int i = 0; i<Global.ANS_NUM; i++){
                 if(i == right_answer){
                     answer[i].setText(answer_word);
                 }
@@ -160,16 +163,16 @@ public class QuizPage extends AppCompatActivity {
                     c.moveToNext();
                 }
             }
-            fangge_name.setText(fangge_item.info);
-            fangge_from.setText(String.format("%s·%s", fangge_item.dynasty, fangge_item.book));
-            fangge_content.setText(replace);
-            fangge_infor.setText(String.format("治法：%s",fangge_item.table_name));
+            fangGeName.setText(fangge_item.info);
+            fangGeSource.setText(String.format("%s·%s", fangge_item.dynasty, fangge_item.book));
+            fangGeContent.setText(replace);
+            fangGeInfo.setText(String.format("治法：%s",fangge_item.table_name));
         }
         else{
             String hint = "____?____";
             c = database.rawQuery(String.format("SELECT * FROM %s WHERE table_name != '%s' ORDER BY RANDOM()", "fangge", fangge_item.table_name), null);
             c.moveToFirst();
-            for(int i=0;i<Global.answer_number;i++){
+            for(int i = 0; i<Global.ANS_NUM; i++){
                 if(i == right_answer){
                     answer[i].setText(fangge_item.table_name);
                 }
@@ -178,10 +181,10 @@ public class QuizPage extends AppCompatActivity {
                     c.moveToNext();
                 }
             }
-            fangge_name.setText(fangge_item.info);
-            fangge_from.setText(String.format("%s·%s", fangge_item.dynasty, fangge_item.book));
-            fangge_content.setText(fangge_item.content);
-            fangge_infor.setText(String.format("治法：%s", hint));
+            fangGeName.setText(fangge_item.info);
+            fangGeSource.setText(String.format("%s·%s", fangge_item.dynasty, fangge_item.book));
+            fangGeContent.setText(fangge_item.content);
+            fangGeInfo.setText(String.format("治法：%s", hint));
         }
 
         //        展示

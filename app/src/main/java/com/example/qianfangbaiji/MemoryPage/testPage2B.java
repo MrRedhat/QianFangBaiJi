@@ -69,9 +69,9 @@ public class testPage2B extends AppCompatActivity {
         startActivity(intent);
         });
 
-        final int right_answer =  (int) (Math.random() * Global.answer_number);
+        final int right_answer =  (int) (Math.random() * Global.ANS_NUM);
 
-        for(int i=0; i<Global.answer_number;i++){
+        for(int i = 0; i<Global.ANS_NUM; i++){
             if(i != right_answer){
                 answer[i].setOnClickListener(v -> {
                     if(test_q_add > -1){
@@ -145,7 +145,7 @@ public class testPage2B extends AppCompatActivity {
         c = db1.rawQuery(String.format("SELECT * FROM %s WHERE id != %d ORDER BY RANDOM()", "fangge", fangge_number), null);
         c.moveToFirst();
 //        生成干扰项
-        for(int i=0;i<Global.answer_number;i++){
+        for(int i = 0; i<Global.ANS_NUM; i++){
             if(i == right_answer){
                 answer[i].setText(answer_word);
             }

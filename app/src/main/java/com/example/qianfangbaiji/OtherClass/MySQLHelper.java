@@ -1,45 +1,63 @@
 package com.example.qianfangbaiji.OtherClass;
 
+import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
+
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class MySQLHelper {
     private static MySQLHelper instance = new MySQLHelper();
-    private MyDBOpenHelper db;
-    private SQLiteDatabase db1;
+    private MyDBOpenHelper dbHelper;
+    private SQLiteDatabase database;
 
     private MySQLHelper() {}
 
     public void createDB(Context context){
-        instance.db = new MyDBOpenHelper(context);
+        instance.dbHelper = new MyDBOpenHelper(context);
         try {
-            instance.db.openDB();
+            instance.dbHelper.openDB();
         } catch (SQLException sqle) {
             try {
-                instance.db.createDB();
+                instance.dbHelper.createDB();
             } catch (IOException ioe) {
                 throw new Error("Database not created....");
             }
         }
-        instance.db.close();
+        instance.dbHelper.close();
     }
 
     public Cursor sqlSelect(String sql){
-        instance.db1 = instance.db.getWritableDatabase();
-        Cursor c = instance.db1.rawQuery(sql, null);
-        return c;
+        instance.database = instance.dbHelper.getWritableDatabase();
+        return instance.database.rawQuery(sql, null);
     }
 
     public void sqlOther(String sql){
-        instance.db1 = instance.db.getWritableDatabase();
-        instance.db1.execSQL(sql);
+        instance.database = instance.dbHelper.getWritableDatabase();
+        instance.database.execSQL(sql);
     }
 
     public static MySQLHelper getInstance(){
         return instance;
+    }
+
+    public static ArrayList<Integer> getRandomID(int num){
+        // 对全部条文进行扫描，随机获取id
+        ArrayList<Integer> idList = new ArrayList<>();
+        Cursor c = instance.sqlSelect(String.format(Locale.US,
+                "SELECT id FROM fangge ORDER BY RANDOM() LIMIT %d", num));
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+            idList.add(c.getInt(c.getColumnIndex("id")));
+            c.moveToNext();
+        }
+        c.close();
+        return idList;
     }
 }

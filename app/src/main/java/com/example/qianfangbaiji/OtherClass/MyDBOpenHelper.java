@@ -14,9 +14,9 @@ import java.io.OutputStream;
 
 
 public class MyDBOpenHelper extends SQLiteOpenHelper {
-    private static String PACKAGE_NAME = "com.example.qianfangbaiji"; //包名
-    private static String DB_PATH =  "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + PACKAGE_NAME + "/databases/";
-    private static String DB_NAME = "database";
+    private static final String PACKAGE_NAME = "com.example.qianfangbaiji"; //包名
+    private static final String DB_PATH =  "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + PACKAGE_NAME + "/databases/";
+    private static final String DB_NAME = "database";
     private SQLiteDatabase db;
     private final Context context;
 
@@ -65,7 +65,6 @@ public class MyDBOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public synchronized void close() {
-
         if(db != null)
             db.close();
 

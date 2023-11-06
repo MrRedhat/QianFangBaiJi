@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.qianfangbaiji.OtherClass.MySQLHelper;
 import com.example.qianfangbaiji.R;
 
 import java.util.ArrayList;
@@ -42,19 +43,11 @@ public class QuizStart extends AppCompatActivity {
                 Toast.makeText(QuizStart.this, "请输入1-100范围内数字", Toast.LENGTH_SHORT).show();
             } else {
                 // 开始对全部条文进行扫描，随机获取id
-                ArrayList<Integer> idList = new ArrayList<>();
-                database = openOrCreateDatabase("database", Context.MODE_PRIVATE, null);
-                Cursor c = database.rawQuery(String.format(Locale.US, "SELECT id FROM fangge ORDER BY RANDOM() LIMIT %d", quizNum), null);
-                c.moveToFirst();
-                while (!c.isAfterLast()) {
-                    idList.add(c.getInt(c.getColumnIndex("id")));
-                    c.moveToNext();
-                }
-                c.close();
+                ArrayList<Integer> idList = MySQLHelper.getRandomID(quizNum);
                 SharedPreferences.Editor editor = getSharedPreferences("test_prefs", MODE_PRIVATE).edit();
                 // 更新键值对
                 editor.putInt("number", idList.size());
-                for(int i=0;i<idList.size();i++){
+                for(int i = 0; i < idList.size(); i++){
                     editor.putInt("array"+ i, idList.get(i));
                 }
                 editor.apply();
