@@ -146,7 +146,7 @@ public class memoryPage extends AppCompatActivity {
         fangge_name.setText(fangge_item.info);
         fangge_from.setText(String.format("%s·%s", fangge_item.dynasty, fangge_item.book));
         fangge_content.setText(fangge_item.content);
-        fangge_infor.setText(String.format("治法：%s",fangge_item.table_name));
+        fangge_infor.setText(String.format("治法：%s",fangge_item.getName()));
         //        展示
         // 获取全局持久变量
         int newDailyNumber;

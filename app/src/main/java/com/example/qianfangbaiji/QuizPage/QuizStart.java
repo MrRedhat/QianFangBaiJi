@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.qianfangbaiji.OtherClass.MySQLHelper;
 import com.example.qianfangbaiji.R;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -42,18 +43,12 @@ public class QuizStart extends AppCompatActivity {
             if (quizNum <= 0  || quizNum >= 100) {
                 Toast.makeText(QuizStart.this, "请输入1-100范围内数字", Toast.LENGTH_SHORT).show();
             } else {
-                // 开始对全部条文进行扫描，随机获取id
-                ArrayList<Integer> idList = MySQLHelper.getRandomID(quizNum);
+                // 将随机ID的生成移动到QuizPage
                 SharedPreferences.Editor editor = getSharedPreferences("test_prefs", MODE_PRIVATE).edit();
-                // 更新键值对
-                editor.putInt("number", idList.size());
-                for(int i = 0; i < idList.size(); i++){
-                    editor.putInt("array"+ i, idList.get(i));
-                }
+                editor.putInt("quiz_num", quizNum);
                 editor.apply();
 
                 Intent intent = new Intent(QuizStart.this, QuizPage.class);
-                intent.putExtra("now", 0);
                 startActivity(intent);
             }
         });

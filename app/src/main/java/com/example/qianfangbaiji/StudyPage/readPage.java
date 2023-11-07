@@ -72,7 +72,7 @@ public class readPage extends AppCompatActivity {
         fangGeName.setText(fangge_item.info);
         fangGeSource.setText(String.format("%s·%s", fangge_item.dynasty, fangge_item.book));
         fangGeContent.setText(fangge_item.content);
-        fangGeInfo.setText(String.format("治法：%s",fangge_item.table_name));
+        fangGeInfo.setText(String.format("治法：%s",fangge_item.getName()));
 
         // 设置图标样式
         starred = fangge_item.isCollect == 1;

@@ -4,11 +4,12 @@ import android.database.Cursor;
 
 public class Fangge {
     public int id;
-    public String dynasty;
+
     public String table_name;
-    public String info;
+    public String dynasty;
     public String book;
     public String content;
+    public String info;
     public int isCut;
     public int isCollect;
     public int isPassed;
@@ -50,5 +51,44 @@ public class Fangge {
         this.isCollect = c.getInt(c.getColumnIndex("iscollect"));
         this.q = q;
         this.day = day;
+    }
+
+    public String getName(){
+        return this.table_name;
+    }
+
+    public String getSource(){
+        return String.format("%s·%s", this.dynasty, this.book);
+    }
+
+    public String getContent(){
+        return this.content;
+    }
+
+    public String getInfo(){
+        return this.info;
+    }
+
+    public String getOneLineOfContent(int lineNum){
+        return this.content.substring(lineNum * 17, (lineNum + 1) * 17 - 1);
+    }
+
+    public String getRandomLineOfContent(){
+        int line_number = (this.content.length() + 1) / 17; // 行数
+        int cut_line = (int) (Math.random() * line_number); // 随机获取一行
+        return this.getOneLineOfContent(cut_line);
+    }
+
+    public String getContentWithOneEmptyLine(int cutLineNum){
+        int line_number = (this.content.length() + 1) / 17; // 总行数
+        String answer_word;
+        if (cutLineNum == line_number - 1){
+            answer_word = this.content.substring(cutLineNum*17, (cutLineNum+1)*17 - 1);
+        }
+        else{
+            answer_word = this.content.substring(cutLineNum*17, (cutLineNum+1)*17);
+        }
+        String replace = this.content.replace(answer_word, "__________________?__________________\n");
+        return replace;
     }
 }

@@ -154,7 +154,7 @@ public class testPage extends AppCompatActivity {
             }
             fangge_from.setText(String.format("%s·%s", fangge_item.dynasty, fangge_item.book));
             fangge_content.setText(fangge_item.content);
-            fangge_infor.setText(String.format("治法：%s",fangge_item.table_name));
+            fangge_infor.setText(String.format("治法：%s",fangge_item.getName()));
         }
         //        fangge_from
         else if (question == 1){
@@ -174,7 +174,7 @@ public class testPage extends AppCompatActivity {
             }
             fangge_name.setText(fangge_item.info);
             fangge_content.setText(fangge_item.content);
-            fangge_infor.setText(String.format("治法：%s",fangge_item.table_name));
+            fangge_infor.setText(String.format("治法：%s",fangge_item.getName()));
         }
         //        fangge_content
         else if(question == 2){
@@ -205,15 +205,15 @@ public class testPage extends AppCompatActivity {
             fangge_name.setText(fangge_item.info);
             fangge_from.setText(String.format("%s·%s", fangge_item.dynasty, fangge_item.book));
             fangge_content.setText(replace);
-            fangge_infor.setText(String.format("治法：%s",fangge_item.table_name));
+            fangge_infor.setText(String.format("治法：%s",fangge_item.getName()));
         }
         else{
             String hint = "____?____";
-            cursor = db1.rawQuery(String.format("SELECT * FROM %s WHERE table_name != '%s' ORDER BY RANDOM()", "fangge", fangge_item.table_name), null);
+            cursor = db1.rawQuery(String.format("SELECT * FROM %s WHERE table_name != '%s' ORDER BY RANDOM()", "fangge", fangge_item.getName()), null);
             cursor.moveToFirst();
             for(int i = 0; i<Global.ANS_NUM; i++){
                 if(i == right_answer){
-                    answer[i].setText(fangge_item.table_name);
+                    answer[i].setText(fangge_item.getName());
                 }
                 else{
                     answer[i].setText(cursor.getString(cursor.getColumnIndex("table_name")));

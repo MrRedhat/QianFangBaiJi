@@ -69,6 +69,6 @@ public class daily extends AppCompatActivity {
         fangge_name.setText(String.format("“%s”", fangge_item.info));
         fangge_content.setText(fangge_item.content);
         fangge_from.setText(String.format("——方歌来源：%s·%s", fangge_item.dynasty, fangge_item.book));
-        fangge_info.setText(String.format("%s", fangge_item.table_name));
+        fangge_info.setText(String.format("%s", fangge_item.getName()));
     }
 }

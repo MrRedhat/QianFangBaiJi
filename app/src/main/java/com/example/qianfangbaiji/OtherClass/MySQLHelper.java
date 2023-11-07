@@ -60,4 +60,9 @@ public class MySQLHelper {
         c.close();
         return idList;
     }
+
+    public static Fangge getFanggeByID(int fangGeID){
+        Cursor c = instance.sqlSelect(String.format("SELECT * FROM %s WHERE id = %d", "fangge", fangGeID));
+        return new Fangge(c);
+    }
 }
